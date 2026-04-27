@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+
+# Environment variables (sensitive)
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Build
+dist/
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# React
+.cache/
+tmp/
+
+# Misc
+*.log
