@@ -70,7 +70,7 @@ const UserModal = () => {
     setLoading(false);
   };
 
-const handleChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
     setError('');
@@ -97,7 +97,7 @@ const handleChange = (e) => {
     }
   };
 
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
@@ -143,87 +143,138 @@ const handleSubmit = async (e) => {
 
   if (showPasswordModal) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
-          <div className="bg-gradient-to-r from-amber-500 to-amber-600 px-8 py-6 text-center">
-            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
-              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-              </svg>
+      <div className="min-h-screen gradient-mesh flex items-center justify-center p-4 relative overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-neon-magenta/10 rounded-full blur-3xl animate-pulse-glow"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-neon-cyan/10 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: '1s' }}></div>
+        </div>
+
+        <div className="relative z-10 w-full max-w-md animate-scale-in">
+          <div className="glass-card rounded-3xl p-1">
+            <div className="bg-surface rounded-3xl p-8 relative overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-neon-magenta via-neon-cyan to-neon-purple"></div>
+              
+              <div className="text-center mb-6">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-neon-magenta to-neon-purple rotate-12 mb-4">
+                  <svg className="w-8 h-8 text-white -rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                  </svg>
+                </div>
+                <h2 className="font-display text-3xl font-bold text-text-primary">CAMBIAR CONTRASEÑA</h2>
+                <p className="text-text-muted text-sm mt-2 tracking-widest uppercase">Establece tu nueva contraseña</p>
+              </div>
+
+              <form onSubmit={handlePasswordChange} className="space-y-5">
+                <div className="bg-neon-magenta/10 border border-neon-magenta/30 text-neon-magenta text-sm px-4 py-3 rounded-xl flex items-start gap-3">
+                  <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                  <div>
+                    <p className="font-medium">Primera vez?</p>
+                    <p className="text-xs mt-1 opacity-80">Debes cambiar tu contraseña antes de continuar. Esta será tu contraseña definitiva.</p>
+                  </div>
+                </div>
+
+                {error && (
+                  <div className="bg-red-900/30 border border-red-500/30 text-red-400 text-sm px-4 py-3 rounded-xl flex items-center gap-3">
+                    <svg className="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                    {error}
+                  </div>
+                )}
+
+                <div>
+                  <label className="block text-xs font-body font-medium text-text-muted uppercase tracking-widest mb-2">Nueva Contraseña</label>
+                  <input 
+                    type="password" 
+                    value={passwordForm.password} 
+                    onChange={(e) => setPasswordForm({ ...passwordForm, password: e.target.value })} 
+                    required 
+                    minLength="6" 
+                    className="w-full bg-surface-light border border-neon-magenta/20 rounded-xl px-4 py-3 text-sm font-body text-text-primary placeholder-text-muted/50 focus:outline-none focus:border-neon-magenta focus:shadow-neon-magenta transition-all duration-300" 
+                    placeholder="••••••••" 
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-body font-medium text-text-muted uppercase tracking-widest mb-2">Confirmar Contraseña</label>
+                  <input 
+                    type="password" 
+                    value={passwordForm.confirmPassword} 
+                    onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })} 
+                    required 
+                    minLength="6" 
+                    className="w-full bg-surface-light border border-neon-magenta/20 rounded-xl px-4 py-3 text-sm font-body text-text-primary placeholder-text-muted/50 focus:outline-none focus:border-neon-magenta focus:shadow-neon-magenta transition-all duration-300" 
+                    placeholder="••••••••" 
+                  />
+                </div>
+
+                <button 
+                  type="submit" 
+                  disabled={loading} 
+                  className="w-full bg-gradient-to-r from-neon-magenta to-neon-purple text-white font-display font-bold py-4 rounded-xl hover:shadow-neon-magenta transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-3 text-sm tracking-wider uppercase"
+                >
+                  {loading ? (
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  ) : 'Guardar Contraseña'}
+                </button>
+              </form>
             </div>
-            <h1 className="text-2xl font-bold text-white">Cambiar Contraseña</h1>
-            <p className="text-amber-200 text-sm mt-1">Establece tu nueva contraseña</p>
           </div>
-
-          <form onSubmit={handlePasswordChange} className="p-8 space-y-5">
-            <div className="bg-amber-50 text-amber-700 text-sm px-4 py-3 rounded-lg flex items-start gap-2">
-              <svg className="w-5 h-5 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-              </svg>
-              <div>
-                <p className="font-medium">Primera vez?</p>
-                <p className="text-xs mt-1">Debes cambiar tu contraseña antes de continuar. Esta será tu contraseña definitiva.</p>
-              </div>
-            </div>
-
-            {error && (
-              <div className="bg-red-50 text-red-600 text-sm px-4 py-3 rounded-lg flex items-center gap-2">
-                <svg className="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                </svg>
-                {error}
-              </div>
-            )}
-
-            <div>
-              <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1.5">Nueva Contraseña</label>
-              <input type="password" value={passwordForm.password} onChange={(e) => setPasswordForm({ ...passwordForm, password: e.target.value })} required minLength="6" className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all" placeholder="••••••••" />
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1.5">Confirmar Contraseña</label>
-              <input type="password" value={passwordForm.confirmPassword} onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })} required minLength="6" className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all" placeholder="••••••••" />
-            </div>
-
-            <button type="submit" disabled={loading} className="w-full bg-amber-600 text-white font-semibold py-3 rounded-lg hover:bg-amber-700 transition-colors text-sm shadow-lg shadow-amber-600/20 disabled:opacity-50 flex items-center justify-center gap-2">
-              {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> : 'Guardar Contraseña'}
-            </button>
-          </form>
         </div>
       </div>
     );
-  };
+  }
 
   return (
-    <div className="min-h-screen bg-slate-100">
-      <header className="bg-white border-b border-slate-200 shadow-sm">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">S</span>
+    <div className="min-h-screen gradient-mesh relative overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-neon-cyan/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-neon-magenta/5 rounded-full blur-3xl"></div>
+      </div>
+
+      <header className="relative z-10 bg-surface/80 backdrop-blur-xl border-b border-neon-cyan/10">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-4 animate-fade-in-up">
+            <div className="relative">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-neon-cyan to-neon-purple flex items-center justify-center rotate-12 shadow-neon-cyan">
+                <span className="text-void font-display font-bold text-xl -rotate-12">S</span>
+              </div>
+              <div className="absolute -inset-1 bg-neon-cyan/20 rounded-xl blur opacity-60 -z-10"></div>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-slate-800">Academia SAP</h1>
-              <p className="text-xs text-slate-500">Portal de Gestión</p>
+              <h1 className="font-display text-2xl font-bold tracking-tight">
+                ACADEMIA <span className="neon-text-cyan">SAP</span>
+              </h1>
+              <p className="text-xs text-text-muted tracking-widest uppercase">Portal de Gestión</p>
             </div>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-3">
+
+          <div className="flex items-center gap-6 animate-fade-in-up stagger-2">
+            <div className="flex items-center gap-4">
               <div className="text-right">
-                <p className="text-sm font-medium text-slate-700">{user?.nombre} {user?.apellido}</p>
-                <span className={`text-xs px-2 py-0.5 rounded-full ${user?.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-slate-100 text-slate-600'}`}>
+                <p className="text-sm font-body font-medium text-text-primary">{user?.nombre} {user?.apellido}</p>
+                <span className={`text-xs px-3 py-1 rounded-full tracking-wider uppercase ${user?.role === 'admin' ? 'bg-neon-purple/20 text-neon-purple border border-neon-purple/30' : 'bg-neon-cyan/20 text-neon-cyan border border-neon-cyan/30'}`}>
                   {user?.role === 'admin' ? 'Administrador' : 'Usuario'}
                 </span>
               </div>
               {user?.role === 'admin' ? (
-                <img src="/admin-avatar.png" alt="Admin" className="w-10 h-10 rounded-full object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
+                <div className="relative">
+                  <img src="/admin-avatar.png" alt="Admin" className="w-11 h-11 rounded-xl object-cover border-2 border-neon-cyan/30" onError={(e) => { e.target.style.display = 'none'; }} />
+                  <div className="absolute -inset-0.5 bg-gradient-to-r from-neon-cyan to-neon-purple rounded-xl blur opacity-40"></div>
+                </div>
               ) : (
-                <div className="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center text-sm font-medium text-slate-600">
+                <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-neon-cyan to-neon-magenta flex items-center justify-center text-sm font-display font-bold text-void">
                   {user?.nombre?.charAt(0)}
                 </div>
               )}
             </div>
-            <button onClick={logout} className="text-slate-500 hover:text-slate-700 p-2 rounded-lg hover:bg-slate-100 transition-colors" title="Cerrar sesión">
+            <button 
+              onClick={logout} 
+              className="text-text-muted hover:text-neon-magenta p-3 rounded-xl hover:bg-neon-magenta/10 transition-all duration-300 border border-transparent hover:border-neon-magenta/30" 
+              title="Cerrar sesión"
+            >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
               </svg>
@@ -232,24 +283,27 @@ const handleSubmit = async (e) => {
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-6 py-8">
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200">
-          <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+      <main className="relative z-10 max-w-7xl mx-auto px-6 py-8">
+        <div className="glass-card rounded-2xl overflow-hidden animate-scale-in">
+          <div className="px-6 py-5 bg-surface/50 border-b border-neon-cyan/10 flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-semibold text-slate-800">
-                {user?.role === 'admin' ? 'Usuarios Registrados' : 'Mi Perfil'}
+              <h2 className="font-display text-xl font-semibold text-text-primary tracking-tight">
+                {user?.role === 'admin' ? 'USUARIOS REGISTRADOS' : 'MI PERFIL'}
               </h2>
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-text-muted mt-1">
                 {user?.role === 'admin' ? 'Lista de todos los usuarios de la academia' : 'Tus datos personales'}
               </p>
             </div>
-            <div className="flex items-center gap-3">
-              <span className="bg-blue-50 text-blue-600 text-sm font-medium px-3 py-1.5 rounded-full">
+            <div className="flex items-center gap-4">
+              <span className="bg-neon-cyan/10 text-neon-cyan border border-neon-cyan/30 text-sm font-body font-medium px-4 py-2 rounded-xl tracking-wider">
                 {usuarios.length} {usuarios.length === 1 ? 'registro' : 'registros'}
               </span>
               {user?.role === 'admin' && (
-                <button onClick={() => { setIsOpen(true); setError(''); setSuccess(''); setForm({ nombre: '', apellido: '', empresa: '', telefono: '+51 ', cargo: '', email: '', comentario: '' }); }} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-blue-700 transition-colors shadow-md shadow-blue-600/20 flex items-center gap-2">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button 
+                  onClick={() => { setIsOpen(true); setError(''); setSuccess(''); setForm({ nombre: '', apellido: '', empresa: '', telefono: '+51 ', cargo: '', email: '', comentario: '' }); }} 
+                  className="bg-gradient-to-r from-neon-cyan to-neon-purple text-void font-display font-bold px-5 py-2.5 rounded-xl hover:shadow-glow transition-all duration-300 flex items-center gap-2 text-sm tracking-wider uppercase"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                   </svg>
                   Nuevo Usuario
@@ -259,48 +313,59 @@ const handleSubmit = async (e) => {
           </div>
 
           {loading && usuarios.length === 0 ? (
-            <div className="flex items-center justify-center py-16">
-              <div className="animate-spin rounded-full h-10 w-10 border-4 border-blue-200 border-t-blue-600"></div>
+            <div className="flex items-center justify-center py-20">
+              <div className="relative">
+                <div className="w-16 h-16 border-4 border-neon-cyan/20 border-t-neon-cyan rounded-full animate-spin"></div>
+                <div className="absolute inset-0 w-16 h-16 border-4 border-neon-magenta/20 border-t-neon-magenta rounded-full animate-spin" style={{ animationDirection: 'reverse', animationDelay: '0.5s' }}></div>
+              </div>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-slate-50">
-                    <th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Nombre</th>
-                    <th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Apellido</th>
-                    <th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Empresa</th>
-                    <th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Teléfono</th>
-                    <th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Cargo</th>
-                    <th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Email</th>
-                    <th className="px-6 py-3.5 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Acciones</th>
+                  <tr className="bg-surface/80">
+                    <th className="px-6 py-4 text-left text-xs font-body font-semibold text-text-muted uppercase tracking-widest">Nombre</th>
+                    <th className="px-6 py-4 text-left text-xs font-body font-semibold text-text-muted uppercase tracking-widest">Apellido</th>
+                    <th className="px-6 py-4 text-left text-xs font-body font-semibold text-text-muted uppercase tracking-widest">Empresa</th>
+                    <th className="px-6 py-4 text-left text-xs font-body font-semibold text-text-muted uppercase tracking-widest">Teléfono</th>
+                    <th className="px-6 py-4 text-left text-xs font-body font-semibold text-text-muted uppercase tracking-widest">Cargo</th>
+                    <th className="px-6 py-4 text-left text-xs font-body font-semibold text-text-muted uppercase tracking-widest">Email</th>
+                    <th className="px-6 py-4 text-left text-xs font-body font-semibold text-text-muted uppercase tracking-widest">Acciones</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-neon-cyan/5">
                   {usuarios.map((usuario, idx) => (
-                    <tr key={usuario.id} className={`${idx % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'} hover:bg-blue-50/30 transition-colors`}>
+                    <tr key={usuario.id} className="bg-surface/40 hover:bg-surface/60 transition-colors duration-200 animate-fade-in-up" style={{ animationDelay: `${idx * 0.05}s`, opacity: 0 }}>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 bg-slate-200 rounded-full flex items-center justify-center text-sm font-medium text-slate-600">
+                          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-neon-cyan/20 to-neon-magenta/20 border border-neon-cyan/30 flex items-center justify-center text-sm font-display font-bold text-neon-cyan">
                             {usuario.nombre?.charAt(0)}
                           </div>
-                          <span className="font-medium text-slate-700">{usuario.nombre}</span>
+                          <span className="font-body font-medium text-text-primary">{usuario.nombre}</span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-sm text-slate-600">{usuario.apellido}</td>
-                      <td className="px-6 py-4 text-sm text-slate-600">{usuario.empresa}</td>
-                      <td className="px-6 py-4 text-sm text-slate-600">{usuario.telefono}</td>
-                      <td className="px-6 py-4 text-sm text-slate-600">{usuario.cargo}</td>
-                      <td className="px-6 py-4 text-sm text-slate-600">{usuario.email}</td>
+                      <td className="px-6 py-4 text-sm font-body text-text-muted">{usuario.apellido}</td>
+                      <td className="px-6 py-4 text-sm font-body text-text-muted">{usuario.empresa}</td>
+                      <td className="px-6 py-4 text-sm font-body text-text-muted">{usuario.telefono}</td>
+                      <td className="px-6 py-4 text-sm font-body text-text-muted">{usuario.cargo}</td>
+                      <td className="px-6 py-4 text-sm font-body text-text-muted">{usuario.email}</td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
-                          <button onClick={() => openEditModal(usuario)} className="text-blue-600 hover:text-blue-800 p-2 rounded-lg hover:bg-blue-50 transition-colors" title="Editar">
+                          <button 
+                            onClick={() => openEditModal(usuario)} 
+                            className="text-neon-cyan hover:text-white p-2.5 rounded-xl hover:bg-neon-cyan/20 transition-all duration-300 border border-transparent hover:border-neon-cyan/30" 
+                            title="Editar"
+                          >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                             </svg>
                           </button>
                           {user?.role === 'admin' && (
-                            <button onClick={() => handleDelete(usuario.id)} className="text-red-500 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition-colors" title="Eliminar">
+                            <button 
+                              onClick={() => handleDelete(usuario.id)} 
+                              className="text-red-400 hover:text-white p-2.5 rounded-xl hover:bg-red-500/20 transition-all duration-300 border border-transparent hover:border-red-500/30" 
+                              title="Eliminar"
+                            >
                               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                               </svg>
@@ -316,14 +381,14 @@ const handleSubmit = async (e) => {
           )}
 
           {usuarios.length === 0 && !loading && (
-            <div className="text-center py-16">
-              <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="text-center py-20">
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-surface border border-neon-cyan/20 mb-6">
+                <svg className="w-10 h-10 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
               </div>
-              <h3 className="text-lg font-medium text-slate-700 mb-1">Sin registros</h3>
-              <p className="text-sm text-slate-500">{user?.role === 'admin' ? 'Aún no hay usuarios registrados' : 'No hay datos disponibles'}</p>
+              <h3 className="font-display text-xl font-medium text-text-primary mb-2">Sin registros</h3>
+              <p className="text-sm text-text-muted">{user?.role === 'admin' ? 'Aún no hay usuarios registrados' : 'No hay datos disponibles'}</p>
             </div>
           )}
         </div>
@@ -331,161 +396,301 @@ const handleSubmit = async (e) => {
 
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setIsOpen(false)}></div>
-          <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
-            <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-5">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-xl font-bold text-white">Nuevo Usuario</h2>
-                  <p className="text-blue-200 text-sm mt-0.5">Complete todos los campos</p>
+          <div className="absolute inset-0 bg-void/80 backdrop-blur-xl" onClick={() => setIsOpen(false)}></div>
+          <div className="relative w-full max-w-md animate-scale-in">
+            <div className="glass-card rounded-3xl p-1">
+              <div className="bg-surface rounded-3xl overflow-hidden">
+                <div className="bg-gradient-to-r from-neon-cyan via-neon-purple to-neon-magenta px-6 py-5 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-surface/30"></div>
+                  <div className="relative flex items-center justify-between">
+                    <div>
+                      <h2 className="font-display text-2xl font-bold text-white tracking-tight">NUEVO USUARIO</h2>
+                      <p className="text-white/70 text-sm mt-1">Complete todos los campos</p>
+                    </div>
+                    <button 
+                      onClick={() => setIsOpen(false)} 
+                      className="text-white/70 hover:text-white w-12 h-12 rounded-xl hover:bg-white/10 flex items-center justify-center transition-all duration-300"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-                <button onClick={() => setIsOpen(false)} className="text-white/80 hover:text-white w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center transition-colors">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
+
+                <form onSubmit={handleSubmit} className="p-6 space-y-5">
+                  {error && <div className="bg-red-900/30 border border-red-500/30 text-red-400 text-sm px-4 py-3 rounded-xl">{error}</div>}
+                  {success && <div className="bg-green-900/30 border border-green-500/30 text-green-400 text-sm px-4 py-3 rounded-xl">{success}</div>}
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-body font-medium text-text-muted uppercase tracking-widest mb-2">Nombre</label>
+                      <input 
+                        name="nombre" 
+                        value={form.nombre} 
+                        onChange={handleChange} 
+                        required 
+                        className="w-full bg-surface-light border border-neon-cyan/20 rounded-xl px-4 py-3 text-sm font-body text-text-primary placeholder-text-muted/50 focus:outline-none focus:border-neon-cyan transition-all duration-300" 
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-body font-medium text-text-muted uppercase tracking-widest mb-2">Apellido</label>
+                      <input 
+                        name="apellido" 
+                        value={form.apellido} 
+                        onChange={handleChange} 
+                        required 
+                        className="w-full bg-surface-light border border-neon-cyan/20 rounded-xl px-4 py-3 text-sm font-body text-text-primary placeholder-text-muted/50 focus:outline-none focus:border-neon-cyan transition-all duration-300" 
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-body font-medium text-text-muted uppercase tracking-widest mb-2">Empresa</label>
+                    <input 
+                      name="empresa" 
+                      value={form.empresa} 
+                      onChange={handleChange} 
+                      required 
+                      className="w-full bg-surface-light border border-neon-cyan/20 rounded-xl px-4 py-3 text-sm font-body text-text-primary placeholder-text-muted/50 focus:outline-none focus:border-neon-cyan transition-all duration-300" 
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-body font-medium text-text-muted uppercase tracking-widest mb-2">Teléfono</label>
+                    <div className="flex gap-2">
+                      <span className="bg-surface-light border border-neon-cyan/20 rounded-xl px-4 py-3 text-sm text-neon-cyan font-body font-medium">+51</span>
+                      <input 
+                        name="telefono" 
+                        value={form.telefono} 
+                        onChange={handleChange} 
+                        required 
+                        className="flex-1 bg-surface-light border border-neon-cyan/20 rounded-xl px-4 py-3 text-sm font-body text-text-primary placeholder-text-muted/50 focus:outline-none focus:border-neon-cyan transition-all duration-300" 
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-body font-medium text-text-muted uppercase tracking-widest mb-2">Cargo</label>
+                    <input 
+                      name="cargo" 
+                      value={form.cargo} 
+                      onChange={handleChange} 
+                      required 
+                      className="w-full bg-surface-light border border-neon-cyan/20 rounded-xl px-4 py-3 text-sm font-body text-text-primary placeholder-text-muted/50 focus:outline-none focus:border-neon-cyan transition-all duration-300" 
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-body font-medium text-text-muted uppercase tracking-widest mb-2">Email</label>
+                    <input 
+                      name="email" 
+                      type="email" 
+                      value={form.email} 
+                      onChange={handleChange} 
+                      required 
+                      className="w-full bg-surface-light border border-neon-cyan/20 rounded-xl px-4 py-3 text-sm font-body text-text-primary placeholder-text-muted/50 focus:outline-none focus:border-neon-cyan transition-all duration-300" 
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-body font-medium text-text-muted uppercase tracking-widest mb-2">Comentario</label>
+                    <textarea 
+                      name="comentario" 
+                      value={form.comentario} 
+                      onChange={handleChange} 
+                      rows="3" 
+                      className="w-full bg-surface-light border border-neon-cyan/20 rounded-xl px-4 py-3 text-sm font-body text-text-primary placeholder-text-muted/50 focus:outline-none focus:border-neon-cyan transition-all duration-300 resize-none" 
+                    />
+                  </div>
+
+                  <div className="flex gap-3 pt-2">
+                    <button 
+                      type="button" 
+                      onClick={() => setIsOpen(false)} 
+                      className="flex-1 bg-surface-light border border-text-muted/20 text-text-muted font-body font-medium py-3 rounded-xl hover:bg-surface-light/80 transition-colors text-sm tracking-wider uppercase"
+                    >
+                      Cancelar
+                    </button>
+                    <button 
+                      type="submit" 
+                      disabled={loading} 
+                      className="flex-1 bg-gradient-to-r from-neon-cyan to-neon-purple text-void font-display font-bold py-3 rounded-xl hover:shadow-glow transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2 text-sm tracking-wider uppercase"
+                    >
+                      {loading ? (
+                        <div className="w-5 h-5 border-2 border-void/30 border-t-void rounded-full animate-spin"></div>
+                      ) : 'Guardar'}
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
-
-            <form onSubmit={handleSubmit} className="p-6 space-y-5">
-              {error && <div className="bg-red-50 text-red-600 text-sm px-4 py-3 rounded-lg">{error}</div>}
-              {success && <div className="bg-green-50 text-green-600 text-sm px-4 py-3 rounded-lg">{success}</div>}
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1.5">Nombre</label>
-                  <input name="nombre" value={form.nombre} onChange={handleChange} required className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1.5">Apellido</label>
-                  <input name="apellido" value={form.apellido} onChange={handleChange} required className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1.5">Empresa</label>
-                <input name="empresa" value={form.empresa} onChange={handleChange} required className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" />
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1.5">Teléfono</label>
-                <div className="flex gap-2">
-                  <span className="bg-slate-100 border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-600 font-medium">+51</span>
-                  <input name="telefono" value={form.telefono} onChange={handleChange} required className="flex-1 border border-slate-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1.5">Cargo</label>
-                <input name="cargo" value={form.cargo} onChange={handleChange} required className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" />
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1.5">Email</label>
-                <input name="email" type="email" value={form.email} onChange={handleChange} required className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" />
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1.5">Comentario</label>
-                <textarea name="comentario" value={form.comentario} onChange={handleChange} rows="3" className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all resize-none" />
-              </div>
-
-              <div className="flex gap-3 pt-2">
-                <button type="button" onClick={() => setIsOpen(false)} className="flex-1 bg-slate-100 text-slate-700 font-medium py-2.5 rounded-lg hover:bg-slate-200 transition-colors text-sm">Cancelar</button>
-                <button type="submit" disabled={loading} className="flex-1 bg-blue-600 text-white font-medium py-2.5 rounded-lg hover:bg-blue-700 transition-colors text-sm shadow-lg shadow-blue-600/20 disabled:opacity-50 flex items-center justify-center gap-2">
-                  {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> : 'Guardar'}
-                </button>
-              </div>
-            </form>
           </div>
         </div>
       )}
 
       {isEditOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setIsEditOpen(false)}></div>
-          <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
-            <div className="bg-gradient-to-r from-amber-500 to-amber-600 px-6 py-5">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-xl font-bold text-white">Editar Usuario</h2>
-                  <p className="text-amber-200 text-sm mt-0.5">{user?.role === 'admin' ? 'Modificar datos del usuario' : 'Modifica tus datos personales'}</p>
+          <div className="absolute inset-0 bg-void/80 backdrop-blur-xl" onClick={() => setIsEditOpen(false)}></div>
+          <div className="relative w-full max-w-md animate-scale-in">
+            <div className="glass-card rounded-3xl p-1">
+              <div className="bg-surface rounded-3xl overflow-hidden">
+                <div className="bg-gradient-to-r from-neon-magenta via-neon-purple to-neon-cyan px-6 py-5 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-surface/30"></div>
+                  <div className="relative flex items-center justify-between">
+                    <div>
+                      <h2 className="font-display text-2xl font-bold text-white tracking-tight">EDITAR USUARIO</h2>
+                      <p className="text-white/70 text-sm mt-1">{user?.role === 'admin' ? 'Modificar datos del usuario' : 'Modifica tus datos personales'}</p>
+                    </div>
+                    <button 
+                      onClick={() => setIsEditOpen(false)} 
+                      className="text-white/70 hover:text-white w-12 h-12 rounded-xl hover:bg-white/10 flex items-center justify-center transition-all duration-300"
+                    >
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-                <button onClick={() => setIsEditOpen(false)} className="text-white/80 hover:text-white w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center transition-colors">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
+
+                <form onSubmit={handleEdit} className="p-6 space-y-5">
+                  {error && <div className="bg-red-900/30 border border-red-500/30 text-red-400 text-sm px-4 py-3 rounded-xl">{error}</div>}
+                  {success && <div className="bg-green-900/30 border border-green-500/30 text-green-400 text-sm px-4 py-3 rounded-xl">{success}</div>}
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-body font-medium text-text-muted uppercase tracking-widest mb-2">Nombre</label>
+                      <input 
+                        name="nombre" 
+                        value={form.nombre} 
+                        onChange={handleChange} 
+                        required 
+                        className="w-full bg-surface-light border border-neon-magenta/20 rounded-xl px-4 py-3 text-sm font-body text-text-primary placeholder-text-muted/50 focus:outline-none focus:border-neon-magenta transition-all duration-300" 
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-body font-medium text-text-muted uppercase tracking-widest mb-2">Apellido</label>
+                      <input 
+                        name="apellido" 
+                        value={form.apellido} 
+                        onChange={handleChange} 
+                        required 
+                        className="w-full bg-surface-light border border-neon-magenta/20 rounded-xl px-4 py-3 text-sm font-body text-text-primary placeholder-text-muted/50 focus:outline-none focus:border-neon-magenta transition-all duration-300" 
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-body font-medium text-text-muted uppercase tracking-widest mb-2">Empresa</label>
+                    <input 
+                      name="empresa" 
+                      value={form.empresa} 
+                      onChange={handleChange} 
+                      required 
+                      className="w-full bg-surface-light border border-neon-magenta/20 rounded-xl px-4 py-3 text-sm font-body text-text-primary placeholder-text-muted/50 focus:outline-none focus:border-neon-magenta transition-all duration-300" 
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-body font-medium text-text-muted uppercase tracking-widest mb-2">Teléfono</label>
+                    <div className="flex gap-2">
+                      <span className="bg-surface-light border border-neon-magenta/20 rounded-xl px-4 py-3 text-sm text-neon-magenta font-body font-medium">+51</span>
+                      <input 
+                        name="telefono" 
+                        value={form.telefono} 
+                        onChange={handleChange} 
+                        required 
+                        className="flex-1 bg-surface-light border border-neon-magenta/20 rounded-xl px-4 py-3 text-sm font-body text-text-primary placeholder-text-muted/50 focus:outline-none focus:border-neon-magenta transition-all duration-300" 
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-body font-medium text-text-muted uppercase tracking-widest mb-2">Cargo</label>
+                    <input 
+                      name="cargo" 
+                      value={form.cargo} 
+                      onChange={handleChange} 
+                      required 
+                      className="w-full bg-surface-light border border-neon-magenta/20 rounded-xl px-4 py-3 text-sm font-body text-text-primary placeholder-text-muted/50 focus:outline-none focus:border-neon-magenta transition-all duration-300" 
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-body font-medium text-text-muted uppercase tracking-widest mb-2">Email</label>
+                    <input 
+                      name="email" 
+                      type="email" 
+                      value={form.email} 
+                      onChange={handleChange} 
+                      required 
+                      className="w-full bg-surface-light border border-neon-magenta/20 rounded-xl px-4 py-3 text-sm font-body text-text-primary placeholder-text-muted/50 focus:outline-none focus:border-neon-magenta transition-all duration-300" 
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-body font-medium text-text-muted uppercase tracking-widest mb-2">Comentario</label>
+                    <textarea 
+                      name="comentario" 
+                      value={form.comentario} 
+                      onChange={handleChange} 
+                      rows="3" 
+                      className="w-full bg-surface-light border border-neon-magenta/20 rounded-xl px-4 py-3 text-sm font-body text-text-primary placeholder-text-muted/50 focus:outline-none focus:border-neon-magenta transition-all duration-300 resize-none" 
+                    />
+                  </div>
+
+                  {user?.role === 'admin' && (
+                    <div className="bg-surface-light border border-neon-cyan/20 rounded-xl px-4 py-4">
+                      <label className="block text-xs font-body font-medium text-text-muted uppercase tracking-widest mb-3">Reiniciar Contraseña</label>
+                      <div className="flex gap-6">
+                        <label className="flex items-center gap-3 text-sm font-body text-text-primary cursor-pointer group">
+                          <input 
+                            type="radio" 
+                            name="resetPassword" 
+                            value="yes" 
+                            checked={resetPassword === 'yes'} 
+                            onChange={handleResetPasswordChange} 
+                            className="w-5 h-5 text-neon-cyan focus:ring-neon-cyan cursor-pointer" 
+                          />
+                          <span className="group-hover:text-neon-cyan transition-colors">Sí</span>
+                        </label>
+                        <label className="flex items-center gap-3 text-sm font-body text-text-primary cursor-pointer group">
+                          <input 
+                            type="radio" 
+                            name="resetPassword" 
+                            value="no" 
+                            checked={resetPassword === 'no'} 
+                            onChange={handleResetPasswordChange} 
+                            className="w-5 h-5 text-neon-cyan focus:ring-neon-cyan cursor-pointer" 
+                          />
+                          <span className="group-hover:text-neon-cyan transition-colors">No</span>
+                        </label>
+                      </div>
+                      <p className="text-xs text-text-muted/60 mt-2">Si marca "Sí", el usuario deberá cambiar su contraseña al iniciar sesión</p>
+                    </div>
+                  )}
+
+                  <div className="flex gap-3 pt-2">
+                    <button 
+                      type="button" 
+                      onClick={() => setIsEditOpen(false)} 
+                      className="flex-1 bg-surface-light border border-text-muted/20 text-text-muted font-body font-medium py-3 rounded-xl hover:bg-surface-light/80 transition-colors text-sm tracking-wider uppercase"
+                    >
+                      Cancelar
+                    </button>
+                    <button 
+                      type="submit" 
+                      disabled={loading} 
+                      className="flex-1 bg-gradient-to-r from-neon-magenta to-neon-purple text-white font-display font-bold py-3 rounded-xl hover:shadow-neon-magenta transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2 text-sm tracking-wider uppercase"
+                    >
+                      {loading ? (
+                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      ) : 'Guardar'}
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
-
-            <form onSubmit={handleEdit} className="p-6 space-y-5">
-              {error && <div className="bg-red-50 text-red-600 text-sm px-4 py-3 rounded-lg">{error}</div>}
-              {success && <div className="bg-green-50 text-green-600 text-sm px-4 py-3 rounded-lg">{success}</div>}
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1.5">Nombre</label>
-                  <input name="nombre" value={form.nombre} onChange={handleChange} required className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all" />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1.5">Apellido</label>
-                  <input name="apellido" value={form.apellido} onChange={handleChange} required className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all" />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1.5">Empresa</label>
-                <input name="empresa" value={form.empresa} onChange={handleChange} required className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all" />
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1.5">Teléfono</label>
-                <div className="flex gap-2">
-                  <span className="bg-slate-100 border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-600 font-medium">+51</span>
-                  <input name="telefono" value={form.telefono} onChange={handleChange} required className="flex-1 border border-slate-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all" />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1.5">Cargo</label>
-                <input name="cargo" value={form.cargo} onChange={handleChange} required className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all" />
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1.5">Email</label>
-                <input name="email" type="email" value={form.email} onChange={handleChange} required className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all" />
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1.5">Comentario</label>
-                <textarea name="comentario" value={form.comentario} onChange={handleChange} rows="3" className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all resize-none" />
-              </div>
-
-              {user?.role === 'admin' && (
-                <div className="bg-slate-50 border border-slate-200 rounded-lg px-4 py-3">
-                  <label className="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-2">Reiniciar Contraseña</label>
-                  <div className="flex gap-4">
-                    <label className="flex items-center gap-2 text-sm text-slate-600 cursor-pointer">
-                      <input type="radio" name="resetPassword" value="yes" checked={resetPassword === 'yes'} onChange={handleResetPasswordChange} className="w-4 h-4 text-blue-600 focus:ring-blue-500 cursor-pointer" />
-                      Sí
-                    </label>
-                    <label className="flex items-center gap-2 text-sm text-slate-600 cursor-pointer">
-                      <input type="radio" name="resetPassword" value="no" checked={resetPassword === 'no'} onChange={handleResetPasswordChange} className="w-4 h-4 text-blue-600 focus:ring-blue-500 cursor-pointer" />
-                      No
-                    </label>
-                  </div>
-                  <p className="text-xs text-slate-400 mt-1">Si marca "Sí", el usuario deberá cambiar su contraseña al iniciar sesión</p>
-                </div>
-              )}
-
-              <div className="flex gap-3 pt-2">
-                <button type="button" onClick={() => setIsEditOpen(false)} className="flex-1 bg-slate-100 text-slate-700 font-medium py-2.5 rounded-lg hover:bg-slate-200 transition-colors text-sm">Cancelar</button>
-                <button type="submit" disabled={loading} className="flex-1 bg-amber-600 text-white font-medium py-2.5 rounded-lg hover:bg-amber-700 transition-colors text-sm shadow-lg shadow-amber-600/20 disabled:opacity-50 flex items-center justify-center gap-2">
-                  {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> : 'Guardar'}
-                </button>
-              </div>
-            </form>
           </div>
         </div>
       )}
